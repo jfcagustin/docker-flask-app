@@ -5,6 +5,9 @@ from flask import render_template
 from flaskApp import db, auth, blog, simple_pages
 from flaskApp.context_processors import utility_text_processors
 
+def page_not_found(e):
+  return render_template('404.html'), 404
+
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
@@ -36,7 +39,7 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
     app.register_blueprint(simple_pages.bp)
-
+    app.register_error_handler(404, page_not_found)
 
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
@@ -54,8 +57,9 @@ def create_app(test_config=None):
 
 app = create_app()
 
-@app.errorhandler(404)
+
+#@app.errorhandler(404)
 # inbuilt function which takes error as parameter
-def not_found(e):
+#def not_found(e):
     # defining function
-    return render_template("404.html")
+ #   return render_template("404.html")
